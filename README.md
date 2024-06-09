@@ -1,4 +1,4 @@
-#run the CHATGPT NODE SERVER
+run the CHATGPT NODE SERVER
 Instructions:
 
 ~ Download all files from here:
@@ -17,4 +17,4 @@ Instructions:
 
 or
 
-https://milestone-mocha-chi.vercel.app/index.html
+[https://milestone-mocha-chi.vercel.app/index.html](https://milestone-tomorrows-web.vercel.app/)
