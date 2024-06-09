@@ -255,13 +255,16 @@ function displayMessage(message, className) {
 
 async function getChatbotResponse(message) {
   try {
-    const response = await fetch("http://localhost:3000/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message }),
-    });
+    const response = await fetch(
+      "https://milestone-tomorrows-kpi1zve86-jazim-hammads-projects.vercel.app/api/chat",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message }),
+      }
+    );
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
