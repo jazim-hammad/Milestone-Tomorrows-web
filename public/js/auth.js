@@ -1,5 +1,5 @@
 // Import Firebase Authentication and Firestore
-import { auth, db } from "./firebase-init.js";
+import { auth, db } from "./firebase-init";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
       signOut(auth)
         .then(() => {
           console.log("User signed out successfully."); // Debug log
-          window.location.href = "/index.html";
+          window.location.href = "./public/index.html";
         })
         .catch((error) => {
           console.error("Sign Out Error", error);
@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
       signInWithEmailAndPassword(auth, email, password)
         .then((cred) => {
           console.log("User signed in successfully:", cred.user); // Debug log
-          window.location.href = "/chat.html";
+          window.location.href = "./public/chat.html";
         })
         .catch((error) => {
           console.error("Sign In Error", error);
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
             displayName: displayName,
           }).then(() => {
             console.log("User signed up successfully:", cred.user); // Debug log
-            window.location.href = "/chat.html";
+            window.location.href = "./public/chat.html";
           });
         })
         .catch((error) => {
@@ -255,7 +255,10 @@ function displayMessage(message, className) {
 
 async function getChatbotResponse(message) {
   try {
-    const response = await fetch("http://localhost:3000/chat", {
+    const apiUrl =
+      process.env.API_URL ||
+      "https://milestone-tomorrows-kww8u0apq-jazim-hammads-projects.vercel.app/api";
+    const response = await fetch(`${apiUrl}/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
