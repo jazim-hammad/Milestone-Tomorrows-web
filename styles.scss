@@ -1,0 +1,619 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+/* Base Colors */
+:root {
+  --background-color: #fff;
+  --text-color: #000;
+  --secondary-background-color: #222;
+  --secondary-text-color: #fff;
+  --button-bg-color: #d3d3d3; /* Light grey for buttons */
+  --button-hover-bg-color: #555; /* Dark grey for button hover */
+  --button-hover-text-color: #d3d3d3; /* Light grey for button text on hover */
+  --user-message-bg: #e0e0e0; /* Light grey for user messages */
+  --bot-message-bg: #f5f5f5; /* Slightly darker grey for bot messages */
+}
+
+.dark-theme {
+  --background-color: #222;
+  --text-color: #fff;
+  --secondary-background-color: #fff;
+  --secondary-text-color: #000;
+  --button-bg-color: #555; /* Dark grey for buttons */
+  --button-hover-bg-color: #d3d3d3; /* Light grey for button hover */
+  --button-hover-text-color: #555; /* Dark grey for button text on hover */
+  --user-message-bg: #444; /* Dark grey for user messages */
+  --bot-message-bg: #555; /* Slightly lighter grey for bot messages */
+
+  .chat-input button img {
+    filter: invert(1);
+  }
+}
+
+body {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-sizing: border-box;
+  padding: 10vmin;
+  font-family: "Mulish", sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+
+  .hamburger-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    #hamburger-button {
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 2em;
+      cursor: pointer;
+      display: none; // Default hidden
+    }
+
+    .menu-content {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: var(--secondary-background-color);
+      color: var(--secondary-text-color);
+      padding: 1em;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-content.show {
+      display: block !important;
+    }
+
+    #logout-button {
+      background-color: var(--button-bg-color);
+      color: var(--text-color);
+      border: none;
+      border-radius: 5px;
+      padding: 0.5em 1em;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        background-color: var(--button-hover-bg-color);
+        color: var(--button-hover-text-color);
+      }
+    }
+  }
+
+  .theme-switcher {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+    input[type="checkbox"] {
+      appearance: none;
+      width: 6em;
+      height: 3em;
+      background: var(--text-color);
+      border-radius: 2em;
+      position: relative;
+      transition: transform 0.75s cubic-bezier(0.5, 1.85, 0.5, 0.75);
+      filter: blur(0.25em) contrast(12);
+      box-shadow: 0 0 0 0.25em var(--background-color) inset;
+      cursor: pointer;
+
+      &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(
+          circle at 22% 50%,
+          var(--background-color) 11%,
+          transparent 0
+        );
+        transition: transform 0.75s;
+      }
+
+      &:checked {
+        transform: rotate(180deg);
+
+        &::before {
+          transform: rotate(-360deg);
+          animation: liquid-2-grow 0.75s 1 forwards;
+        }
+      }
+
+      &[disabled] {
+        opacity: 0.25;
+      }
+    }
+
+    .icon {
+      font-size: 1em;
+      position: absolute;
+      top: 43%;
+      transform: translateY(-50%);
+      transition: opacity 0.3s;
+
+      &.sun {
+        right: 10%;
+        opacity: 1;
+      }
+
+      &.moon {
+        left: 10%;
+        opacity: 0;
+      }
+    }
+
+    input[type="checkbox"]:checked ~ .switch-label .sun {
+      opacity: 0;
+    }
+
+    input[type="checkbox"]:checked ~ .switch-label .moon {
+      opacity: 1;
+    }
+  }
+
+  .back-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #000; /* Solid black for back button */
+    color: #fff; /* Solid white for back button text */
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      background-color: #333;
+      color: #fff;
+    }
+
+    display: none; // Default hidden
+  }
+
+  .container {
+    text-align: center;
+
+    h1 {
+      font-family: "Philosopher", sans-serif;
+      margin: 0;
+    }
+
+    .tagline {
+      font-size: 1.5rem;
+    }
+
+    .buttons {
+      .btn {
+        display: inline-block;
+        margin: 10px;
+        padding: 10px 20px;
+        background-color: #000; /* Solid black for other buttons */
+        color: #fff; /* Solid white for other buttons */
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+          background-color: #333;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .chat-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 90vw;
+    height: 80vh;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    .chat-history {
+      width: 22%;
+      padding: 0.5rem;
+      background-color: var(--background-color);
+      border-right: 1px solid var(--secondary-background-color); /* Add border */
+      overflow-y: auto;
+
+      button {
+        background-color: var(--secondary-background-color);
+        color: var(--secondary-text-color);
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+
+        &:hover {
+          background-color: var(--button-hover-bg-color);
+          color: var(--button-hover-text-color);
+        }
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0 0;
+
+        li {
+          padding: 0.5rem;
+          border-bottom: 1px solid var(--secondary-background-color);
+          cursor: pointer;
+
+          &:hover {
+            background-color: var(--button-hover-bg-color);
+            color: var(--button-hover-text-color);
+          }
+        }
+      }
+    }
+    .chat-content {
+      width: 77%;
+
+      .chat-header {
+        padding: 0.5rem;
+        background-color: var(--secondary-background-color);
+        color: var(--secondary-text-color);
+        text-align: center;
+        font-family: "Philosopher", sans-serif;
+      }
+      .chat-messages {
+        height: 63%;
+        padding: 0.5rem;
+        overflow-y: auto;
+        background-color: var(--background-color);
+
+        .message {
+          margin-bottom: 1rem;
+          padding: 0.5rem;
+          border-radius: 10px;
+        }
+
+        .user-message {
+          background-color: var(--user-message-bg);
+          color: var(--text-color);
+          align-self: flex-end;
+        }
+
+        .bot-message {
+          background-color: var(--bot-message-bg);
+          color: var(--text-color);
+          align-self: flex-start;
+        }
+      }
+
+      .chat-input {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        background-color: var(--background-color);
+        border-top: 1px solid var(--secondary-background-color);
+
+        input {
+          flex: 1;
+          padding: 0.5rem;
+          border: none;
+          border-radius: 5px;
+          outline: none;
+          background-color: var(--background-color);
+          color: var(--text-color);
+          transition: border-color 0.3s;
+
+          &:focus {
+            border-color: var(--text-color);
+          }
+        }
+
+        button {
+          margin-left: 0.5rem;
+          padding: 0.5rem;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          transition: background-color 0.3s, color 0.3s;
+
+          &:hover img {
+            filter: brightness(0.8);
+          }
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
+        }
+      }
+    }
+  }
+
+  footer {
+    position: fixed;
+    top: 90%;
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.8rem;
+  }
+
+  .mscursor-cursor {
+    pointer-events: none;
+    position: fixed;
+    display: block;
+    border-radius: 0;
+    top: 0;
+    left: 0;
+    z-index: 9999999999999999;
+
+    &.mscursor-difference {
+      mix-blend-mode: difference;
+    }
+
+    .mscursor-circle {
+      transform-origin: center;
+      position: absolute;
+      display: block;
+      width: 26px;
+      height: 26px;
+      border-radius: 20px;
+
+      &.mscursor-border-transform {
+        animation: border-transform 3s linear infinite;
+      }
+    }
+  }
+
+  .mscursor-scale {
+    transition: 0.5s ease;
+    transform: scale(1.6);
+  }
+
+  .mscursor-scale-outline {
+    transform: scale(1.9);
+    background-color: transparent !important;
+  }
+
+  .mscursor-nocursor {
+    cursor: none !important;
+  }
+
+  .signup-login-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 2rem;
+    background: var(--background-color);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    h2 {
+      font-family: "Philosopher", sans-serif;
+      margin-bottom: 1rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      .name-fields {
+        width: 78%;
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+
+        input {
+          width: 40%;
+        }
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="email"] {
+        width: 70%; /* Adjusted width */
+        height: 10px;
+        justify-content: center;
+        display: flex;
+        margin: 10px auto; /* Adjusted margin */
+        padding: 12px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        transition: background 0.3s, color 0.3s;
+
+        &:focus {
+          border-color: var(--text-color);
+        }
+      }
+
+      button {
+        width: 60%;
+        height: 40px;
+        margin: 10px auto;
+        justify-content: center;
+        display: block;
+        font-size: 1em;
+        font-weight: bold;
+        margin-top: 30px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--button-bg-color);
+        color: var(--text-color);
+        transition: 0.2s ease-in, background-color 0.3s, color 0.3s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--button-hover-bg-color);
+          color: var(--button-hover-text-color);
+        }
+      }
+    }
+  }
+
+  .main {
+    width: 350px;
+    height: 500px;
+    background: var(--background-color);
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 5px 20px 50px #000;
+
+    #chk {
+      display: none;
+    }
+
+    .signup,
+    .login {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: var(--background-color);
+      color: var(--text-color);
+
+      label {
+        font-size: 2.3em;
+        justify-content: center;
+        display: flex;
+        margin: 50px;
+        font-family: "Philosopher", sans-serif;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.5s ease-in-out;
+      }
+
+      input {
+        width: 70%; /* Adjusted width */
+        height: 10px;
+        justify-content: center;
+        display: flex;
+        margin: 10px auto; /* Adjusted margin */
+        padding: 12px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      .name-fields {
+        width: 78%;
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
+
+        input {
+          width: 40%;
+        }
+      }
+
+      button {
+        width: 60%;
+        height: 40px;
+        margin: 10px auto;
+        justify-content: center;
+        display: block;
+        font-size: 1em;
+        font-weight: bold;
+        margin-top: 30px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--button-bg-color);
+        color: var(--text-color);
+        transition: 0.2s ease-in, background-color 0.3s, color 0.3s;
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--button-hover-bg-color);
+          color: var(--button-hover-text-color);
+        }
+      }
+    }
+
+    .login {
+      height: 460px;
+      background: var(--secondary-background-color);
+      color: var(--secondary-text-color);
+      border-radius: 60% / 10%;
+      transform: translateY(-180px);
+      transition: 0.8s ease-in-out;
+    }
+
+    #chk:checked ~ .login {
+      transform: translateY(-500px);
+      background: var(--background-color);
+      color: var(--text-color);
+    }
+
+    #chk:checked ~ .signup {
+      background: var(--secondary-background-color);
+      color: var(--secondary-text-color);
+    }
+
+    #chk:checked ~ .login label {
+      color: var(--text-color);
+    }
+
+    #chk:checked ~ .signup label {
+      color: var(--secondary-text-color);
+      transform: scale(0.6);
+    }
+
+    #chk:checked ~ .login label {
+      transform: scale(1);
+    }
+
+    @media (max-width: 600px) {
+      .signup-login-container {
+        padding: 1rem;
+      }
+    }
+  }
+}
+
+/* Keyframes */
+@keyframes liquid-2-grow {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+}
+
+@keyframes border-transform {
+  0%,
+  100% {
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  }
+  14% {
+    border-radius: 40% 60% 54% 46% / 49% 60% 40% 51%;
+  }
+  28% {
+    border-radius: 54% 46% 38% 62% / 49% 70% 30% 51%;
+  }
+  42% {
+    border-radius: 61% 39% 55% 45% / 61% 38% 62% 39%;
+  }
+  56% {
+    border-radius: 61% 39% 67% 33% / 70% 50% 50% 30%;
+  }
+  70% {
+    border-radius: 50% 50% 34% 66% / 56% 68% 32% 44%;
+  }
+  84% {
+    border-radius: 46% 54% 50% 50% / 35% 61% 39% 65%;
+  }
+}

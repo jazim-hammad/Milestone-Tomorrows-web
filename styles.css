@@ -1,0 +1,543 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Philosopher:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+/* Base Colors */
+:root {
+  --background-color: #fff;
+  --text-color: #000;
+  --secondary-background-color: #222;
+  --secondary-text-color: #fff;
+  --button-bg-color: #d3d3d3; /* Light grey for buttons */
+  --button-hover-bg-color: #555; /* Dark grey for button hover */
+  --button-hover-text-color: #d3d3d3; /* Light grey for button text on hover */
+  --user-message-bg: #e0e0e0; /* Light grey for user messages */
+  --bot-message-bg: #f5f5f5; /* Slightly darker grey for bot messages */
+}
+
+.dark-theme {
+  --background-color: #222;
+  --text-color: #fff;
+  --secondary-background-color: #fff;
+  --secondary-text-color: #000;
+  --button-bg-color: #555; /* Dark grey for buttons */
+  --button-hover-bg-color: #d3d3d3; /* Light grey for button hover */
+  --button-hover-text-color: #555; /* Dark grey for button text on hover */
+  --user-message-bg: #444; /* Dark grey for user messages */
+  --bot-message-bg: #555; /* Slightly lighter grey for bot messages */
+}
+.dark-theme .chat-input button img {
+  filter: invert(1);
+}
+
+body {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  height: 100vh;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  box-sizing: border-box;
+  padding: 10vmin;
+  font-family: "Mulish", sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+body .hamburger-menu {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+body .hamburger-menu #hamburger-button {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: 2em;
+  cursor: pointer;
+  display: none;
+}
+body .hamburger-menu .menu-content {
+  display: none;
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: var(--secondary-background-color);
+  color: var(--secondary-text-color);
+  padding: 1em;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+body .hamburger-menu .menu-content.show {
+  display: block !important;
+}
+body .hamburger-menu #logout-button {
+  background-color: var(--button-bg-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+body .hamburger-menu #logout-button:hover {
+  background-color: var(--button-hover-bg-color);
+  color: var(--button-hover-text-color);
+}
+body .theme-switcher {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+body .theme-switcher input[type=checkbox] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 6em;
+  height: 3em;
+  background: var(--text-color);
+  border-radius: 2em;
+  position: relative;
+  transition: transform 0.75s cubic-bezier(0.5, 1.85, 0.5, 0.75);
+  filter: blur(0.25em) contrast(12);
+  box-shadow: 0 0 0 0.25em var(--background-color) inset;
+  cursor: pointer;
+}
+body .theme-switcher input[type=checkbox]::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at 22% 50%, var(--background-color) 11%, transparent 0);
+  transition: transform 0.75s;
+}
+body .theme-switcher input[type=checkbox]:checked {
+  transform: rotate(180deg);
+}
+body .theme-switcher input[type=checkbox]:checked::before {
+  transform: rotate(-360deg);
+  animation: liquid-2-grow 0.75s 1 forwards;
+}
+body .theme-switcher input[type=checkbox][disabled] {
+  opacity: 0.25;
+}
+body .theme-switcher .icon {
+  font-size: 1em;
+  position: absolute;
+  top: 43%;
+  transform: translateY(-50%);
+  transition: opacity 0.3s;
+}
+body .theme-switcher .icon.sun {
+  right: 10%;
+  opacity: 1;
+}
+body .theme-switcher .icon.moon {
+  left: 10%;
+  opacity: 0;
+}
+body .theme-switcher input[type=checkbox]:checked ~ .switch-label .sun {
+  opacity: 0;
+}
+body .theme-switcher input[type=checkbox]:checked ~ .switch-label .moon {
+  opacity: 1;
+}
+body .back-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #000; /* Solid black for back button */
+  color: #fff; /* Solid white for back button text */
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+  display: none;
+}
+body .back-button:hover {
+  background-color: #333;
+  color: #fff;
+}
+body .container {
+  text-align: center;
+}
+body .container h1 {
+  font-family: "Philosopher", sans-serif;
+  margin: 0;
+}
+body .container .tagline {
+  font-size: 1.5rem;
+}
+body .container .buttons .btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #000; /* Solid black for other buttons */
+  color: #fff; /* Solid white for other buttons */
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+body .container .buttons .btn:hover {
+  background-color: #333;
+  color: #fff;
+}
+body .chat-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 90vw;
+  height: 80vh;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+body .chat-container .chat-history {
+  width: 22%;
+  padding: 0.5rem;
+  background-color: var(--background-color);
+  border-right: 1px solid var(--secondary-background-color); /* Add border */
+  overflow-y: auto;
+}
+body .chat-container .chat-history button {
+  background-color: var(--secondary-background-color);
+  color: var(--secondary-text-color);
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+body .chat-container .chat-history button:hover {
+  background-color: var(--button-hover-bg-color);
+  color: var(--button-hover-text-color);
+}
+body .chat-container .chat-history ul {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+body .chat-container .chat-history ul li {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--secondary-background-color);
+  cursor: pointer;
+}
+body .chat-container .chat-history ul li:hover {
+  background-color: var(--button-hover-bg-color);
+  color: var(--button-hover-text-color);
+}
+body .chat-container .chat-content {
+  width: 77%;
+}
+body .chat-container .chat-content .chat-header {
+  padding: 0.5rem;
+  background-color: var(--secondary-background-color);
+  color: var(--secondary-text-color);
+  text-align: center;
+  font-family: "Philosopher", sans-serif;
+}
+body .chat-container .chat-content .chat-messages {
+  height: 63%;
+  padding: 0.5rem;
+  overflow-y: auto;
+  background-color: var(--background-color);
+}
+body .chat-container .chat-content .chat-messages .message {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+body .chat-container .chat-content .chat-messages .user-message {
+  background-color: var(--user-message-bg);
+  color: var(--text-color);
+  align-self: flex-end;
+}
+body .chat-container .chat-content .chat-messages .bot-message {
+  background-color: var(--bot-message-bg);
+  color: var(--text-color);
+  align-self: flex-start;
+}
+body .chat-container .chat-content .chat-input {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: var(--background-color);
+  border-top: 1px solid var(--secondary-background-color);
+}
+body .chat-container .chat-content .chat-input input {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: border-color 0.3s;
+}
+body .chat-container .chat-content .chat-input input:focus {
+  border-color: var(--text-color);
+}
+body .chat-container .chat-content .chat-input button {
+  margin-left: 0.5rem;
+  padding: 0.5rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+body .chat-container .chat-content .chat-input button:hover img {
+  filter: brightness(0.8);
+}
+body .chat-container .chat-content .chat-input button img {
+  width: 24px;
+  height: 24px;
+}
+body footer {
+  position: fixed;
+  top: 90%;
+  width: 100%;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 0.8rem;
+}
+body .mscursor-cursor {
+  pointer-events: none;
+  position: fixed;
+  display: block;
+  border-radius: 0;
+  top: 0;
+  left: 0;
+  z-index: 10000000000000000;
+}
+body .mscursor-cursor.mscursor-difference {
+  mix-blend-mode: difference;
+}
+body .mscursor-cursor .mscursor-circle {
+  transform-origin: center;
+  position: absolute;
+  display: block;
+  width: 26px;
+  height: 26px;
+  border-radius: 20px;
+}
+body .mscursor-cursor .mscursor-circle.mscursor-border-transform {
+  animation: border-transform 3s linear infinite;
+}
+body .mscursor-scale {
+  transition: 0.5s ease;
+  transform: scale(1.6);
+}
+body .mscursor-scale-outline {
+  transform: scale(1.9);
+  background-color: transparent !important;
+}
+body .mscursor-nocursor {
+  cursor: none !important;
+}
+body .signup-login-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 2rem;
+  background: var(--background-color);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+body .signup-login-container h2 {
+  font-family: "Philosopher", sans-serif;
+  margin-bottom: 1rem;
+}
+body .signup-login-container form {
+  display: flex;
+  flex-direction: column;
+}
+body .signup-login-container form .name-fields {
+  width: 78%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+body .signup-login-container form .name-fields input {
+  width: 40%;
+}
+body .signup-login-container form input[type=text],
+body .signup-login-container form input[type=password],
+body .signup-login-container form input[type=email] {
+  width: 70%; /* Adjusted width */
+  height: 10px;
+  justify-content: center;
+  display: flex;
+  margin: 10px auto; /* Adjusted margin */
+  padding: 12px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  transition: background 0.3s, color 0.3s;
+}
+body .signup-login-container form input[type=text]:focus,
+body .signup-login-container form input[type=password]:focus,
+body .signup-login-container form input[type=email]:focus {
+  border-color: var(--text-color);
+}
+body .signup-login-container form button {
+  width: 60%;
+  height: 40px;
+  margin: 10px auto;
+  justify-content: center;
+  display: block;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 30px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--button-bg-color);
+  color: var(--text-color);
+  transition: 0.2s ease-in, background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+body .signup-login-container form button:hover {
+  background-color: var(--button-hover-bg-color);
+  color: var(--button-hover-text-color);
+}
+body .main {
+  width: 350px;
+  height: 500px;
+  background: var(--background-color);
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 5px 20px 50px #000;
+}
+body .main #chk {
+  display: none;
+}
+body .main .signup,
+body .main .login {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--background-color);
+  color: var(--text-color);
+}
+body .main .signup label,
+body .main .login label {
+  font-size: 2.3em;
+  justify-content: center;
+  display: flex;
+  margin: 50px;
+  font-family: "Philosopher", sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.5s ease-in-out;
+}
+body .main .signup input,
+body .main .login input {
+  width: 70%; /* Adjusted width */
+  height: 10px;
+  justify-content: center;
+  display: flex;
+  margin: 10px auto; /* Adjusted margin */
+  padding: 12px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  transition: background 0.3s, color 0.3s;
+}
+body .main .signup .name-fields,
+body .main .login .name-fields {
+  width: 78%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+body .main .signup .name-fields input,
+body .main .login .name-fields input {
+  width: 40%;
+}
+body .main .signup button,
+body .main .login button {
+  width: 60%;
+  height: 40px;
+  margin: 10px auto;
+  justify-content: center;
+  display: block;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 30px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--button-bg-color);
+  color: var(--text-color);
+  transition: 0.2s ease-in, background-color 0.3s, color 0.3s;
+  cursor: pointer;
+}
+body .main .signup button:hover,
+body .main .login button:hover {
+  background-color: var(--button-hover-bg-color);
+  color: var(--button-hover-text-color);
+}
+body .main .login {
+  height: 460px;
+  background: var(--secondary-background-color);
+  color: var(--secondary-text-color);
+  border-radius: 60%/10%;
+  transform: translateY(-180px);
+  transition: 0.8s ease-in-out;
+}
+body .main #chk:checked ~ .login {
+  transform: translateY(-500px);
+  background: var(--background-color);
+  color: var(--text-color);
+}
+body .main #chk:checked ~ .signup {
+  background: var(--secondary-background-color);
+  color: var(--secondary-text-color);
+}
+body .main #chk:checked ~ .login label {
+  color: var(--text-color);
+}
+body .main #chk:checked ~ .signup label {
+  color: var(--secondary-text-color);
+  transform: scale(0.6);
+}
+body .main #chk:checked ~ .login label {
+  transform: scale(1);
+}
+@media (max-width: 600px) {
+  body .main .signup-login-container {
+    padding: 1rem;
+  }
+}
+
+/* Keyframes */
+@keyframes liquid-2-grow {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+}
+@keyframes border-transform {
+  0%, 100% {
+    border-radius: 63% 37% 54% 46%/55% 48% 52% 45%;
+  }
+  14% {
+    border-radius: 40% 60% 54% 46%/49% 60% 40% 51%;
+  }
+  28% {
+    border-radius: 54% 46% 38% 62%/49% 70% 30% 51%;
+  }
+  42% {
+    border-radius: 61% 39% 55% 45%/61% 38% 62% 39%;
+  }
+  56% {
+    border-radius: 61% 39% 67% 33%/70% 50% 50% 30%;
+  }
+  70% {
+    border-radius: 50% 50% 34% 66%/56% 68% 32% 44%;
+  }
+  84% {
+    border-radius: 46% 54% 50% 50%/35% 61% 39% 65%;
+  }
+}/*# sourceMappingURL=styles.css.map */
