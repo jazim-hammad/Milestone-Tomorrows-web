@@ -255,16 +255,16 @@ function displayMessage(message, className) {
 
 async function getChatbotResponse(message) {
   try {
-    const response = await fetch(
-      "https://milestone-tomorrows-web.vercel.app/api/chat",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message }),
-      }
-    );
+    const apiUrl =
+      process.env.API_URL ||
+      "https://milestone-tomorrows-kww8u0apq-jazim-hammads-projects.vercel.app/api";
+    const response = await fetch(`${apiUrl}/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message }),
+    });
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
