@@ -1,5 +1,5 @@
 // Import Firebase Authentication and Firestore
-import { auth, db } from "firebase-init";
+import { auth, db } from "./firebase-init";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
