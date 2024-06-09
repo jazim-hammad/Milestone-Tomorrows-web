@@ -21,7 +21,7 @@ This guide outlines the steps to run the project locally on your machine.
 1. **Install Dependencies:**
    - Open the Visual Studio Code terminal (Terminal > New Terminal) and execute:
      ```bash
-     npm install
+     npm install express cors multer openai
      ```
 
 2. **Start the Server:**
