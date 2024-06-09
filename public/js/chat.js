@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
     auth
       .signOut()
       .then(() => {
-        window.location.href = "index.html"; // Redirect to index page
+        window.location.href = "./public/index.html"; // Redirect to index page
       })
       .catch((error) => {
         console.error("Error logging out:", error);
