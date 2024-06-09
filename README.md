@@ -31,6 +31,6 @@ This guide outlines the steps to run the project locally on your machine.
      ```
 
 3. **Access the Website:**
-   - Open any web browser and go to [http://localhost:3000](http://localhost:3000) to view the website.
+   - Open any web browser and go to [https:/milestone-tomorrows-web.vercel.app/](https://milestone-tomorrows-web.vercel.app/) to view the website.
 
 For further information or issues, refer to the project documentation or contact the project maintainers.
