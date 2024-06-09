@@ -256,7 +256,7 @@ function displayMessage(message, className) {
 async function getChatbotResponse(message) {
   try {
     const response = await fetch(
-      "https://milestone-tomorrows-kpi1zve86-jazim-hammads-projects.vercel.app/api/chat",
+      "https://milestone-tomorrows-web.vercel.app/api/chat",
       {
         method: "POST",
         headers: {
